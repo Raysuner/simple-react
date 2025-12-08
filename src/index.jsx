@@ -1,42 +1,32 @@
-import React from "react";
-import ReactDOM from "react-dom";
-
-// const originalCreateElement = React.createElement;
-
-// function createElement() {
-//   Array.from(arguments).forEach((it, index) => {
-//     console.log(index + ":  ");
-//     console.log(it);
-//   });
-//   return originalCreateElement.apply(this, arguments);
-// }
-
-// React.createElement = createElement;
+import React from "./react";
+import ReactDOM from "./react-dom";
 
 class MyApp extends React.Component {
   constructor() {
     super();
-    this.state = {
-      count: 0,
-    };
+    this.arr1 = ['a', 'b', 'c', 'd', 'e'];
+    this.arr2 = ['c', 'b', 'e', 'f', 'a']
+    this.state = {arr: this.arr1}
+    this.flag = true
+    this.updateArray = this.updateArray.bind(this);
+  }
+
+  updateArray() {
+    this.setState({ arr: this.flag ? this.arr2 : this.arr1} )
+    this.flag = !this.flag
   }
 
   render() {
     return (
       <div>
-        <h1>hello world</h1>
-        <p onClick={() => this.setState({ count: this.state.count + 1 })}>
-          count: {1}
-        </p>
+        <button onClick={this.updateArray}>Update Array</button>
+        <ul>
+          {this.state.arr.map((item, index) => <li key={index}>{item}</li>)}
+        </ul>
+
       </div>
     );
   }
 }
 
-console.log(
-  <div>
-    <span>2</span>
-  </div>
-);
-
-ReactDOM.render(<div>1</div>, document.getElementById("root"));
+ReactDOM.render(<MyApp />, document.getElementById("root"));

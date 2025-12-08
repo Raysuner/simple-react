@@ -15,10 +15,9 @@ export class Component {
   }
 
   update() {
-    const oldDom = this.oldDom;
-    const newVNode = this.render();
-    const newDom = createDOM(newVNode);
-    updateDomTree(oldDom, newDom);
-    this.oldDom = newDom;
+    const oldRenderVNode = this.oldRenderVNode;
+    const newRenderVNode = this.render();
+    updateDomTree(oldRenderVNode, newRenderVNode, this.dom);
+    this.oldRenderVNode = newRenderVNode;
   }
 }
