@@ -1,3 +1,4 @@
+import { toVNode } from "./utils";
 import { REACT_FORWARD_REF, REACT_ELEMENT } from "./const";
 import { Component } from "./component";
 
@@ -8,10 +9,10 @@ function createElement(type, properties, ...children) {
 
   let finanChildren;
   if (children.length === 1) {
-    finanChildren = children[0];
+    finanChildren = toVNode(children[0]);
   } else if (children.length > 1) {
-    finanChildren = children;
-  } 
+    finanChildren = children.map(toVNode);
+  }
 
   const props = { children: finanChildren };
 
