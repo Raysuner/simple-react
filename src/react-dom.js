@@ -91,6 +91,7 @@ function getDomFromClassComponent(vNode) {
   vNode.component = component;
   if (ref) ref.current = component;
   const renderVNode = component.render();
+  if (component.componentDidMount) component.componentDidMount();
   component.oldRenderVNode = renderVNode;
   if (!renderVNode) return;
   const dom = createDOM(renderVNode);
@@ -111,6 +112,9 @@ function getDomFromFunctionComponent(vNode) {
 function updateClassComponent(oldVNode, newVNode) {
   const classInstance = oldVNode.component;
   classInstance.props = newVNode.props;
+  if (oldVNode.props !== newVNode.props && classInstance.componentWillReceiveProps) {
+    classInstance.componentWillReceiveProps(newVNode.props);
+  }
   classInstance.launchUpdate();
 }
 
@@ -287,8 +291,17 @@ function mount(vNode, container) {
   container.appendChild(dom);
 }
 
+let rootVNode = null
+
+export function emitUpdateForHooks() {
+  if (rootVNode) {
+    updateDomTree(rootVNode, rootVNode, rootVNode.dom);
+  }
+}
+
 function render(vNode, container) {
   mount(vNode, container);
+  rootVNode = vNode;
 }
 
 const ReactDOM = {

@@ -1,5 +1,6 @@
 import React from "./react";
 import ReactDOM from "./react-dom";
+import { useState } from "./hooks";
 
 class MyApp extends React.Component {
   constructor() {
@@ -29,4 +30,20 @@ class MyApp extends React.Component {
   }
 }
 
-ReactDOM.render(<MyApp />, document.getElementById("root"));
+function App() {
+  const [count, setCount] = useState(0);
+  const [doubleCount, setDoubleCount] = useState(0);
+  return (
+    <div className="app-wrapper">
+      <button onClick={() => {
+        setCount(count + 1)
+        setDoubleCount(doubleCount + 2)
+      }}>点我</button>
+      {count}
+      <br />
+      {doubleCount}
+    </div>
+  );
+}
+
+ReactDOM.render(<App />, document.getElementById("root"));

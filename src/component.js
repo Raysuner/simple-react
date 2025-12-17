@@ -19,5 +19,8 @@ export class Component {
     const newRenderVNode = this.render();
     updateDomTree(oldRenderVNode, newRenderVNode, this.dom);
     this.oldRenderVNode = newRenderVNode;
+    if (this.componetDidUpdate) {
+      this.componetDidUpdate(this.props, this.state);
+    }
   }
 }
